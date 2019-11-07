@@ -12,8 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac1157ef5e73bc84c9303b5eb354991f, type: 3}
   m_Name: Keys
   m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300000, guid: becf2fd178fbe5444acf1766eaae91d3, type: 3}
-  - {fileID: 21300000, guid: f34723f0f33cd2a4684c14ace89eb3bc, type: 3}
-  - {fileID: 21300000, guid: 8307eee4642de324b980bafb8c54e527, type: 3}
-  - {fileID: 21300000, guid: 8799057ba0ceb8345b467020bdf7ddc2, type: 3}
+  spritesKeyCodes:
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 77ca9fbf4ef823b4898801f5a2c3391f,
+      type: 3}
+    <keyCode>k__BackingField: 273
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 9cd5554b44ea9774783be9f4db52ed1f,
+      type: 3}
+    <keyCode>k__BackingField: 274
+  - <sprite>k__BackingField: {fileID: 21300000, guid: df9d417349abb9e4ea3d44fc956809b0,
+      type: 3}
+    <keyCode>k__BackingField: 276
+  - <sprite>k__BackingField: {fileID: 21300000, guid: 967109857dfe4ec4197ee6ecefe2b14c,
+      type: 3}
+    <keyCode>k__BackingField: 275
