@@ -32,7 +32,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject countdown;
     [SerializeField] private Text countdown_Text;
 
+    [SerializeField] private float baseDelay = 5f;
+
     private Coroutine corCountdown;
+    private Coroutine corDelayedReset;
 
     #endregion
 
@@ -97,6 +100,12 @@ public class UIManager : MonoBehaviour
         endPanel.SetActive(true);
     }
 
+    public void DelayedReset()
+    {
+        if (corDelayedReset != null) StopCoroutine(corDelayedReset);
+        corDelayedReset = StartCoroutine(ResetAfterDelay());
+    }
+
     public void StartCountdown(Action callback)
     {
         if (corCountdown != null) StopCoroutine(corCountdown);
@@ -112,6 +121,13 @@ public class UIManager : MonoBehaviour
     #endregion
 
     #region Private Methods
+
+    private IEnumerator ResetAfterDelay()
+    {
+        yield return new WaitForSecondsRealtime(baseDelay);
+
+        ResetUI();
+    }
 
     private IEnumerator Countdown(Action callback)
     {

@@ -78,6 +78,8 @@ public class RandomKeyPicker : MonoBehaviour
         UIManager.Instance.DisplayFinalScoreText(ScoreManager.Instance.GetScore());
 
         ScoreManager.Instance.ResetScore();
+
+        UIManager.Instance.DelayedReset();
     }
 
     private void CheckKeyPress(KeyCode code)
