@@ -25,6 +25,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text scorePanel_Text;
     [SerializeField] private GameObject endPanel;
     [SerializeField] private Text endPanel_Text;
+    [SerializeField] private GameObject timerPanel;
+    [SerializeField] private Text timerPanel_Text;
 
     [SerializeField] private RandomKeyPicker randomKeyPicker;
 
@@ -81,6 +83,7 @@ public class UIManager : MonoBehaviour
     {
         scorePanel.SetActive(enable);
         keyToPress.SetActive(enable);
+        timerPanel.SetActive(enable);
     }
 
     public void UpdateScoreText(int newValue)
@@ -98,6 +101,11 @@ public class UIManager : MonoBehaviour
         DisableUI();
 
         endPanel.SetActive(true);
+    }
+
+    public void UpdateTimerText(int newValue)
+    {
+        timerPanel_Text.text = newValue.ToString("N0", new CultureInfo("is-IS")) + "s";
     }
 
     public void DelayedReset()

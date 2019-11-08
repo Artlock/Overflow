@@ -79,7 +79,8 @@ public class RandomKeyPicker : MonoBehaviour
 
         ScoreManager.Instance.ResetScore();
 
-        UIManager.Instance.DelayedReset();
+        // Replaced delayed reset with a button click
+        //UIManager.Instance.DelayedReset();
     }
 
     private void CheckKeyPress(KeyCode code)
@@ -131,6 +132,8 @@ public class RandomKeyPicker : MonoBehaviour
         float tickerCurrent = 0f;
         float extraTimeRandom = 0f;
 
+        UIManager.Instance.UpdateTimerText(Mathf.CeilToInt(duration - timerCurrent));
+
         // Pick a random key from the start (To avoid having a blank key)
 
         // Pick a new random sprite
@@ -158,6 +161,8 @@ public class RandomKeyPicker : MonoBehaviour
                 // Assign the key to our sprite
                 keyToPress_Img.sprite = selectedKey.sprite;
             }
+
+            UIManager.Instance.UpdateTimerText(Mathf.CeilToInt(duration - timerCurrent));
 
             yield return null;
         }
