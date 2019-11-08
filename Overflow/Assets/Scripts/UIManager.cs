@@ -35,9 +35,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private RandomKeyPicker randomKeyPicker;
 
     [SerializeField, Range(0, 10)] private int countdownDuration = 3;
-    
-
-    [SerializeField] private float baseDelay = 5f;
 
     private Coroutine corCountdown;
     private Coroutine corDelayedReset;
