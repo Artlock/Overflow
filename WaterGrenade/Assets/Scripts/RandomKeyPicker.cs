@@ -64,24 +64,14 @@ public class RandomKeyPicker : MonoBehaviour
     {
         shouldStart = false;
 
+        UIManager.Instance.StopCountdown();
+
         StopRandomKeyPicker();
     }
 
     #endregion
 
     #region Private Methods
-
-    private void EndOfGame()
-    {
-        StopRandomKeyPicker(false);
-
-        UIManager.Instance.DisplayFinalScoreText(ScoreManager.Instance.GetScore());
-
-        ScoreManager.Instance.ResetScore();
-
-        // Replaced delayed reset with a button click
-        //UIManager.Instance.DelayedReset();
-    }
 
     private void CheckKeyPress(KeyCode code)
     {
@@ -93,6 +83,14 @@ public class RandomKeyPicker : MonoBehaviour
 
             //Debug.Log("CORRECT KEY!");
         }
+
+        if (code == KeyCode.Escape)
+        {
+            StopPicker();
+
+            UIManager.Instance.ResetUI();
+            ScoreManager.Instance.ResetScore();
+        }
     }
 
     private void EndOfInputFrame()
@@ -101,6 +99,15 @@ public class RandomKeyPicker : MonoBehaviour
         {
             ScoreManager.Instance.DecrementScore();
         }
+    }
+
+    private void EndOfGame()
+    {
+        StopPicker();
+
+        UIManager.Instance.DisplayFinalScoreText(ScoreManager.Instance.GetScore());
+
+        ScoreManager.Instance.ResetScore();
     }
 
     private void StartRandomKeyPicker()
@@ -113,15 +120,11 @@ public class RandomKeyPicker : MonoBehaviour
         corRandomKey = StartCoroutine(PickRandomKey());
     }
 
-    private void StopRandomKeyPicker(bool reset = true)
+    private void StopRandomKeyPicker()
     {
         if (corRandomKey != null) StopCoroutine(corRandomKey);
 
-        if (reset)
-        {
-            UIManager.Instance.ResetUI();
-            ScoreManager.Instance.ResetScore();
-        }
+        UIManager.Instance.UpdateTimerText(duration);
 
         corRandomKey = null;
     }

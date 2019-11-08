@@ -23,6 +23,8 @@ public class InputManager : MonoBehaviour
             if (Input.GetKey(k.keyCode)) keyPressed?.Invoke(k.keyCode);
         }
 
+        if (Input.GetKey(KeyCode.Escape)) keyPressed?.Invoke(KeyCode.Escape);
+
         endOfFrame?.Invoke();
     }
 

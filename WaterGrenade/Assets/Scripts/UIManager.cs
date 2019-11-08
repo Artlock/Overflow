@@ -20,19 +20,22 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject background;
     [SerializeField] private GameObject startButton;
 
-    [SerializeField] private GameObject keyToPress;
-    [SerializeField] private GameObject scorePanel;
-    [SerializeField] private Text scorePanel_Text;
+    [SerializeField] private GameObject gamePanel;
+
+    [SerializeField] private GameObject preGamePanel;
+    [SerializeField] private Text countdown_Text;
+
+    [SerializeField] private GameObject inGamePanel;
+    [SerializeField] private Text score_Text;
+    [SerializeField] private Text timer_Text;
+    
     [SerializeField] private GameObject endPanel;
-    [SerializeField] private Text endPanel_Text;
-    [SerializeField] private GameObject timerPanel;
-    [SerializeField] private Text timerPanel_Text;
+    [SerializeField] private Text end_Text;
 
     [SerializeField] private RandomKeyPicker randomKeyPicker;
 
     [SerializeField, Range(0, 10)] private int countdownDuration = 3;
-    [SerializeField] private GameObject countdown;
-    [SerializeField] private Text countdown_Text;
+    
 
     [SerializeField] private float baseDelay = 5f;
 
@@ -57,6 +60,7 @@ public class UIManager : MonoBehaviour
     public void StartNewGame()
     {
         startButton.SetActive(false);
+        gamePanel.SetActive(true);
 
         randomKeyPicker.StartPicker();
     }
@@ -71,47 +75,49 @@ public class UIManager : MonoBehaviour
 
     public void DisableUI()
     {
-        // Disable entire UI
+        // Disable global UI
         foreach (Transform tr in canvas.transform)
             tr.gameObject.SetActive(false);
+
+        // Disable in game UI
+        DisableInGameUI();
 
         // Keep background
         background.SetActive(true);
     }
 
+    public void DisableInGameUI()
+    {
+        // Disable in game UI
+        foreach (Transform tr in gamePanel.transform)
+            tr.gameObject.SetActive(false);
+    }
+
     public void ToggleInGameUI(bool enable)
     {
-        scorePanel.SetActive(enable);
-        keyToPress.SetActive(enable);
-        timerPanel.SetActive(enable);
+        inGamePanel.SetActive(enable);
     }
 
     public void UpdateScoreText(int newValue)
     {
-        scorePanel_Text.text = newValue.ToString("N0", new CultureInfo("is-IS"));
+        score_Text.text = newValue.ToString("N0", new CultureInfo("is-IS"));
     }
 
     public void DisplayFinalScoreText(int newValue)
     {
         if (newValue != 0)
-            endPanel_Text.text = "Congratulations ! Your score is : " + newValue.ToString("N0", new CultureInfo("is-IS"));
+            end_Text.text = "Congratulations ! Your score is : " + newValue.ToString("N0", new CultureInfo("is-IS"));
         else
-            endPanel_Text.text = "Game Over !";
+            end_Text.text = "Game Over !";
 
-        DisableUI();
+        DisableInGameUI();
 
         endPanel.SetActive(true);
     }
 
     public void UpdateTimerText(int newValue)
     {
-        timerPanel_Text.text = newValue.ToString("N0", new CultureInfo("is-IS")) + "s";
-    }
-
-    public void DelayedReset()
-    {
-        if (corDelayedReset != null) StopCoroutine(corDelayedReset);
-        corDelayedReset = StartCoroutine(ResetAfterDelay());
+        timer_Text.text = newValue.ToString("N0", new CultureInfo("is-IS")) + "s";
     }
 
     public void StartCountdown(Action callback)
@@ -124,24 +130,20 @@ public class UIManager : MonoBehaviour
     {
         if (corCountdown != null) StopCoroutine(corCountdown);
         corCountdown = null;
+
+        preGamePanel.SetActive(false);
+        countdown_Text.text = "";
     }
 
     #endregion
 
     #region Private Methods
 
-    private IEnumerator ResetAfterDelay()
-    {
-        yield return new WaitForSecondsRealtime(baseDelay);
-
-        ResetUI();
-    }
-
     private IEnumerator Countdown(Action callback)
     {
         int currentCount = 0;
 
-        countdown.SetActive(true);
+        preGamePanel.SetActive(true);
         countdown_Text.text = (countdownDuration - currentCount).ToString();
 
         while (currentCount < countdownDuration)
@@ -152,7 +154,7 @@ public class UIManager : MonoBehaviour
             countdown_Text.text = (countdownDuration - currentCount).ToString();
         }
 
-        countdown.SetActive(false);
+        preGamePanel.SetActive(false);
 
         callback();
     }
